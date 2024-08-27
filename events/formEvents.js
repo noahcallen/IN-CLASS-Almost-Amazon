@@ -1,4 +1,6 @@
+import { getAuthors, updateAuthor, createAuthor } from '../api/authorData';
 import { createBook, getBooks, updateBook } from '../api/bookData';
+import { showAuthors } from '../pages/authors';
 import { showBooks } from '../pages/books';
 
 const formEvents = () => {
@@ -40,11 +42,23 @@ const formEvents = () => {
       });
     }
 
-    // FIXME: ADD CLICK EVENT FOR SUBMITTING FORM FOR ADDING AN AUTHOR
+    // ADD CLICK EVENT FOR SUBMITTING FORM FOR ADDING AN AUTHOR
     if (e.target.id.includes('submit-author')) {
-      console.warn('CLICKED SUBMIT AUTHOR');
+      const payload = {
+        email: document.querySelector('#email').value,
+        favorite: document.querySelector('#favorite').checked,
+        first_name: document.querySelector('#first_name').value,
+        last_name: document.querySelector('#last_name').value,
+      };
+
+      createAuthor(payload).then(({ author }) => {
+        const patchPayload = { firebaseKey: author };
+        updateAuthor(patchPayload).then(() => {
+          getAuthors().then(showAuthors);
+        });
+      });
     }
-    // FIXME:ADD CLICK EVENT FOR EDITING AN AUTHOR
+    // FIXME: ADD CLICK EVENT FOR EDITING AN AUTHOR
   });
 };
 

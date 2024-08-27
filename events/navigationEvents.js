@@ -1,7 +1,8 @@
 import { signOut } from '../utils/auth';
 import { getBooks, booksOnSale } from '../api/bookData';
 import { showBooks } from '../pages/books';
-
+import { getAuthors } from '../api/authorData';
+import { showAuthors } from '../pages/authors';
 // navigation events
 const navigationEvents = () => {
   // LOGOUT BUTTON
@@ -18,13 +19,13 @@ const navigationEvents = () => {
     getBooks().then(showBooks);
   });
 
-  // FIXME: STUDENTS Create an event listener for the Authors
+  // STUDENTS Create an event listener for the Authors
   // 1. When a user clicks the authors link, make a call to firebase to get all authors
   // 2. Convert the response to an array because that is what the makeAuthors function is expecting
   // 3. If the array is empty because there are no authors, make sure to use the emptyAuthor function
   document.querySelector('#authors').addEventListener('click', () => {
-    console.warn('CLICKED AUTHORS');
-  });
+    getAuthors().then(showAuthors);
+  });// CLOSE AUTHORS
 
   // STRETCH: SEARCH
   document.querySelector('#search').addEventListener('keyup', (e) => {
